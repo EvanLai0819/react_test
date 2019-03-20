@@ -5,48 +5,57 @@
     <title>Title</title>
     <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
-    <script src="react-demos/build/babel.min.js"></script>
+    <script src="./build/babel.min.js"></script>
+    <script src="./build/prop-types.js"></script>
     <script>
     </script>
 </head>
 <body>
 <div id="example"></div>
 <script type="text/babel">
+    class FlavorForm extends React.Component {
+        constructor(props) {
+            super(props);
+            this.state = {value: ''};
 
-    class Son extends React.Component {
-        render() {
-            return (<div style={{padding: 30}}>
-                {this.props.email}
-            </div>)
+            this.handleChange = this.handleChange.bind(this);
+            this.handleSubmit = this.handleSubmit.bind(this);
         }
-    }
 
-    class Grandson extends React.Component {
-        render() {
-            return (<div>
-                <Son email={'372649557qq.com'}/>
-            </div>)
+        static propTypes = {
+            title: PropTypes.string.isRequired,
         }
-    }
 
-    Son.propTypes = {
-        email: function (props, propName, componentName) {
-            if (!/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/.test(props[propName])) {
-                return new Error('组件' + componentName + '里的属性' + propName + '不符合邮箱的格式');
-            }
+        handleChange(event) {
+            this.setState({value: event.target.value});
         }
-    }
 
-    class Father extends React.Component {
+        handleSubmit(event) {
+            alert('Your favorite flavor is: ' + this.state.value);
+            event.preventDefault();
+        }
+
         render() {
-            return (<div>
-                <Son email={'372649557@qq.com'}/>
-            </div>)
+            return (
+                <form onSubmit={this.handleSubmit}>
+                    <label>
+                        Pick your favorite flavor:
+                        <select value={this.state.value} onChange={this.handleChange}>
+                            <option value="">empty</option>
+                            <option value="grapefruit">Grapefruit</option>
+                            <option value="lime">Lime</option>
+                            <option value="coconut">Coconut</option>
+                            <option value="mango">Mango</option>
+                        </select>
+                    </label>
+                    <input type="submit" value="Submit"/>
+                </form>
+            );
         }
     }
 
     ReactDOM.render(
-        <Grandson></Grandson>,
+        <FlavorForm/>,
         document.getElementById('example')
     );
 </script>
