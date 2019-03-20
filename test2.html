@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="react-demos/build/babel.min.js"></script>
+    <script>
+    </script>
+</head>
+<body>
+<div id="example"></div>
+<script type="text/babel">
+
+    class Son extends React.Component {
+        render() {
+            return (<div style={{padding: 30}}>
+                {this.props.email}
+            </div>)
+        }
+    }
+
+    class Grandson extends React.Component {
+        render() {
+            return (<div>
+                <Son email={'372649557qq.com'}/>
+            </div>)
+        }
+    }
+
+    Son.propTypes = {
+        email: function (props, propName, componentName) {
+            if (!/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/.test(props[propName])) {
+                return new Error('组件' + componentName + '里的属性' + propName + '不符合邮箱的格式');
+            }
+        }
+    }
+
+    class Father extends React.Component {
+        render() {
+            return (<div>
+                <Son email={'372649557@qq.com'}/>
+            </div>)
+        }
+    }
+
+    ReactDOM.render(
+        <Grandson></Grandson>,
+        document.getElementById('example')
+    );
+</script>
+</body>
+</body>
+</html>
